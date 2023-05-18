@@ -10,7 +10,7 @@
 int main(int argc, const char* argv[]) {
   int dayOfWeek;  
   int time;       
-  int isOpen[2][7] = {{0, 1, 1, 1, 1, 1, 7},
+  int isOpen[2][7] = {{0, 1, 1, 1, 1, 1, 0},
                       {0, 1, 1, 0, 1, 1, 1}};  
   printf("曜日?");                             
   scanf("%d", &dayOfWeek);                     

@@ -10,7 +10,7 @@
 int main(int argc, const char* argv[]) {
   int dayOfWeek;  // 変数dayOfWeekを宣言
   int time;       // 変数timeを宣言
-  int isOpen[2][7] = {{0, 1, 1, 1, 1, 1, 7},
+  int isOpen[2][7] = {{0, 1, 1, 1, 1, 1, 0},
                       {0, 1, 1, 0, 1, 1, 1}};  // 配列listを宣言
   printf("曜日?");                             // 曜日?を表示
   scanf("%d", &dayOfWeek);                     // キーボードから入力
