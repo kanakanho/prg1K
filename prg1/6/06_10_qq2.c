@@ -9,7 +9,7 @@
 
 int main(int argc, const char* argv[]) {
   int n;
-  printf("n?");
+  printf("n? ");
   scanf("%d", &n);
   for (int i = 0; i <= 2; i++) {
     for (int j = 1; j <= 9; j++)

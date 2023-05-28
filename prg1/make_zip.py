@@ -25,7 +25,6 @@ number = os.listdir(path)
 # ファイル名を昇順にソート
 number.sort()
 # zip_make.ipynb,zip_make.pyを除外
-number.remove("prg1K")
 number.remove("make_zip.ipynb")
 number.remove("make_zip.py")
 # 既存のzipファイル名を除外

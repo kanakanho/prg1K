@@ -16,7 +16,7 @@ int isPrimeNumber(int n) {
 
 int main(int argc, const char* argv[]) {
   int n;            // 変数nを宣言
-  printf("n?");     // n?を表示
+  printf("n? ");    // n?を表示
   scanf("%d", &n);  // キーボードから入力
   if (isPrimeNumber(n) == 0)
     printf("素数ではありません\n");
