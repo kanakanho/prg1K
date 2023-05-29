@@ -15,17 +15,18 @@ int main(int argc, const char* argv[]) {
     temp = x;
     x = y;
     y = temp;
-    if (x > z) {
-      temp = x;
-      z = x;
-      x = temp;
-    }
-    if (y > z) {
-      temp = y;
-      y = z;
-      z = temp;
-    }
   }
+  if (x > z) {
+    temp = x;
+    z = x;
+    x = temp;
+  }
+  if (y > z) {
+    temp = y;
+    y = z;
+    z = temp;
+  }
+
   printf("%d %d %d\n", x, y, z);
   return 0;
 }
