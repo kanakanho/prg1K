@@ -11,7 +11,8 @@ int main(int argc, const char* argv[]) {
   int x = 0, n = 0, temp = 0;
   printf("x n? ");
   scanf("%d %d", &x, &n);
-  for (int i = n; i > 0; i--) temp *= x;
+  temp = x;
+  for (int i = n; i > 1; i--) temp *= x;
   printf("%d^%d = %d\n", x, n, temp);
   return 0;
 }
