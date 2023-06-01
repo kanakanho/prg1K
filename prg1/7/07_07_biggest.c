@@ -12,8 +12,8 @@ int main(int argc, const char* argv[]) {
   for (int i = 1; i <= 5; i++) {
     printf("%d? ", i);
     scanf("%d", &x);
-    if (x > max) max = x;
+    if (x >= max) max = x;
   }
-  scanf("max = %d\n", &x);
+  printf("max = %d\n", max);
   return 0;
 }
