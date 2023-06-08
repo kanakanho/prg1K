@@ -13,9 +13,9 @@ int main(int argc, const char* argv[]) {
   scanf("%d %d", &w, &h);
   for (int i = 0; i < w; i++) {
     for (int j = 0; j < h; j++) {
-      printf("#");
+      putchar('#');
     }
-    printf("\n");
+    putchar('\n');
   }
   return 0;
 }
