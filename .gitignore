@@ -1,4 +1,4 @@
 .DS_Store
-./k23060.zip
-./k23060_issues.zip
+.vscode
+*.zip
 a.out
