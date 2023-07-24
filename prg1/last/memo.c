@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <string.h>
 
-void print_game(char game[4][4][4]);
-void player_action(char game[4][4][4], int player);
-int judge_game(char game[4][4][4]);
+void print_game(int game[4][4][4]);
+void player_action(int game[4][4][4], int player);
+int judge_game(int game[4][4][4]);
 
 int main(void) {
-  // printf("\033[2J\033[H");
+  printf("\033[2J\033[H");
   char continue_game = 'y';
   printf("event:start");
   printf("立体的な四目並べゲーム\n");
@@ -27,22 +27,11 @@ int main(void) {
     int play_counter = 0;
     int player = 0;
     int outcome = 0;
-    char game[4][4][4] = {{{' ', ' ', ' ', ' '},
-                           {' ', ' ', ' ', ' '},
-                           {' ', ' ', ' ', ' '},
-                           {' ', ' ', ' ', ' '}},
-                          {{' ', ' ', ' ', ' '},
-                           {' ', ' ', ' ', ' '},
-                           {' ', ' ', ' ', ' '},
-                           {' ', ' ', ' ', ' '}},
-                          {{' ', ' ', ' ', ' '},
-                           {' ', ' ', ' ', ' '},
-                           {' ', ' ', ' ', ' '},
-                           {' ', ' ', ' ', ' '}},
-                          {{' ', ' ', ' ', ' '},
-                           {' ', ' ', ' ', ' '},
-                           {' ', ' ', ' ', ' '},
-                           {' ', ' ', ' ', ' '}}};
+    int game[4][4][4] = {
+        {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}},
+        {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}},
+        {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}},
+        {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}};
     while (outcome == 0) {
       printf("event:run\n");
       player = play_counter % 2;
@@ -76,7 +65,7 @@ int main(void) {
   return 0;
 }
 
-void print_game(char game[4][4][4]) {
+void print_game(int game[4][4][4]) {
   printf("event:print\n");
   // game画面の描画
   for (int i = 0; i <= 1; i++) {
@@ -104,7 +93,7 @@ void print_game(char game[4][4][4]) {
   }
 }
 
-void player_action(char game[4][4][4], int player) {
+void player_action(int game[4][4][4], int player) {
   char OX[2] = {'O', 'X'};
   char input_num;
   printf("プレイヤー%dのターンです\n", player);
@@ -152,73 +141,57 @@ void player_action(char game[4][4][4], int player) {
     row[0] = 3, row[1] = 2;
   else if (strcmp(&input_num, "F") == 0)
     row[0] = 3, row[1] = 3;
-
-  // ポインタを使ってgame関数を書き換える
-
   // 横の行の特定と入力
-  if (strcmp(&game[3][row[0]][row[1]], " ") == 0)
-    game[3][row[0]][row[1]] = OX[player];
-  else if (strcmp(&game[2][row[0]][row[1]], " ") == 0)
-    game[2][row[0]][row[1]] = OX[player];
-  else if (strcmp(&game[1][row[0]][row[1]], " ") == 0)
-    game[1][row[0]][row[1]] = OX[player];
-  else if (strcmp(&game[0][row[0]][row[1]], " ") == 0)
-    game[0][row[0]][row[1]] = OX[player];
-  else
+  if (game[3][row[0]][row[1]] == 0)
+    game[3][row[0]][row[1]] = player;
+  else if (game[2][row[0]][row[1]] == 0)
+    game[2][row[0]][row[1]] = player;
+  else if (game[1][row[0]][row[1]] == 0)
+    game[1][row[0]][row[1]] = player;
+  else if (game[0][row[0]][row[1]] == 0)
+    game[0][row[0]][row[1]] = player;
+  else {
     printf("その場所にはマークを落とせません\n");
-  player_action(game, player);
+    player_action(game, player);
+  }
 }
-int judge_game(char game[4][4][4]) {
+int judge_game(int game[4][4][4]) {
   // 勝敗の判定
   // 横の判定
   for (int i = 0; i <= 3; i++) {
     for (int j = 0; j <= 3; j++) {
-      if ((game[i][j][0] == ' ') || (game[i][j][0] == game[i][j][1]) &&
-                                        (game[i][j][0] == game[i][j][2]) &&
-                                        (game[i][j][0] == game[i][j][3]))
-        return 0;
-      if (game[i][j][0] == game[i][j][1] == game[i][j][2] == game[i][j][3])
+      if (game[i][j][0] == game[i][j][1] == game[i][j][2] == game[i][j][3] &&
+          game[i][j][0] != 0)
         return 1;
     }
   }
   // 縦の判定
   for (int i = 0; i <= 3; i++) {
     for (int j = 0; j <= 3; j++) {
-      if ((game[i][0][j] == ' ') || (game[i][0][j] == game[i][1][j]) &&
-                                        (game[i][0][j] == game[i][2][j]) &&
-                                        (game[i][0][j] == game[i][3][j]))
-        return 0;
-      if (game[i][0][j] == game[i][1][j] == game[i][2][j] == game[i][3][j])
+      if (game[i][0][j] == game[i][1][j] == game[i][2][j] == game[i][3][j] &&
+          game[i][0][j] != 0)
         return 1;
     }
   }
   // 斜めの判定
   for (int i = 0; i <= 3; i++) {
-    if ((game[i][0][0] == ' ') ||
-        (game[i][0][0] == game[i][1][1] && game[i][0][0] == game[i][2][2] &&
-         game[i][0][0] == game[i][3][3]) ||
-        (game[i][0][3] == ' ') ||
-        (game[i][0][3] == game[i][1][2] && game[i][0][3] == game[i][2][1] &&
-         game[i][0][3] == game[i][3][0]) ||
-        (game[0][i][0] == ' ') ||
-        (game[0][i][0] == game[1][i][1] && game[0][i][0] == game[2][i][2] &&
-         game[0][i][0] == game[3][i][3]) ||
-        (game[0][i][3] == ' ') ||
-        (game[0][i][3] == game[1][i][2] && game[0][i][3] == game[2][i][1] &&
-         game[0][i][3] == game[3][i][0]) ||
-        (game[0][0][i] == ' ') ||
-        (game[0][0][i] == game[1][1][i] && game[0][0][i] == game[2][2][i] &&
-         game[0][0][i] == game[3][3][i]) ||
-        (game[0][3][i] == ' ') ||
-        (game[0][3][i] == game[1][2][i] && game[0][3][i] == game[2][1][i] &&
-         game[0][3][i] == game[3][0][i]))
-      return 0;
-    else if (game[i][0][0] == game[i][1][1] == game[i][2][2] == game[i][3][3] ||
-             game[i][0][3] == game[i][1][2] == game[i][2][1] == game[i][3][0] ||
-             game[0][i][0] == game[1][i][1] == game[2][i][2] == game[3][i][3] ||
-             game[0][i][3] == game[1][i][2] == game[2][i][1] == game[3][i][0] ||
-             game[0][0][i] == game[1][1][i] == game[2][2][i] == game[3][3][i] ||
-             game[0][3][i] == game[1][2][i] == game[2][1][i] == game[3][0][i])
+    if (game[i][0][0] == game[i][1][1] == game[i][2][2] == game[i][3][3] &&
+        game[i][0][0] != 0)
+      return 1;
+    if (game[i][0][3] == game[i][1][2] == game[i][2][1] == game[i][3][0] &&
+        game[i][0][3] != 0)
+      return 1;
+    if (game[0][i][0] == game[1][i][1] == game[2][i][2] == game[3][i][3] &&
+        game[0][i][0] != 0)
+      return 1;
+    if (game[0][i][3] == game[1][i][2] == game[2][i][1] == game[3][i][0] &&
+        game[0][i][3] != 0)
+      return 1;
+    if (game[0][0][i] == game[1][1][i] == game[2][2][i] == game[3][3][i] &&
+        game[0][0][i] != 0)
+      return 1;
+    if (game[0][3][i] == game[1][2][i] == game[2][1][i] == game[3][0][i] &&
+        game[0][3][i] != 0)
       return 1;
   }
   return 0;
