@@ -96,7 +96,7 @@ int main(void) {
 
   // 4/5をlearnに、1/5をtestに
   // セットする場所を決める（1~5）
-  for (int setOneFifth = 0; setOneFifth < 5; setOneFifth++) {
+  for (int setOneFifth = 1; setOneFifth <= 5; setOneFifth++) {
     int learnCount = count * 4 / 5;
     int testCount = count - learnCount;
     struct iris array_learn[learnCount];
