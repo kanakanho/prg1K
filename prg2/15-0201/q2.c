@@ -22,28 +22,17 @@ void freePassenger(Passenger *root);
 
 int main(void) {
   Passenger *root = NULL;
-  char line[256];
   FILE *fp;
 
-  // ファイルを開く
-  fp = fopen("titanic.csv", "r");
-  if (fp == NULL) {
-    printf("ファイルを開けませんでした\n");
-    return 1;
-  }
-
-  char input[256];
   // ファイルを読み込む
-  while (fgets(input, sizeof(input), fp) != NULL) {
-    char class[256];
-    double age;
-    char sex[10];
-    int survived;
-    sscanf(input, "%255[^,],%lf,%9[^,],%d\n", class, &age, sex, &survived);
-    root = addPassenger(&root, class, age, sex, survived);
-    dispPassenger(root);
-    break;
-  }
+  char line[] = "1st, 0.92, male, 1\n";
+  char class[256];
+  double age;
+  char sex[10];
+  int survived;
+  sscanf(line, "%[^,],%lf,%9[^,],%d\n", class, &age, sex, &survived);
+  root = addPassenger(&root, class, age, sex, survived);
+  dispPassenger(root);
 
   freePassenger(root);
 
