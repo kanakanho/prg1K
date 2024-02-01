@@ -20,6 +20,11 @@ void dispPassenger(Passenger *root);
 // メモリを解放する関数
 void freePassenger(Passenger *root);
 
+// クラスごとの客を数える関数
+int countFirstClass(Passenger *root);
+int countSecondClass(Passenger *root);
+int countThirdClass(Passenger *root);
+
 // 生存者数を数える関数
 int countSurvived(Passenger *root);
 
@@ -50,17 +55,23 @@ int main(void) {
     root = addPassenger(&root, class, age, sex, survived);
   }
 
-  // 生存者、死亡者を数える
-  int survived = countSurvived(root);
+  // クラスごとの客
+  int firstClass = countFirstClass(root);
+  int secondClass = countSecondClass(root);
+  int thirdClass = countThirdClass(root);
+
+  // 生存者を数える
   int survivedFirstClass = countSurvivedFirstClass(root);
   int survivedSecondClass = countSurvivedSecondClass(root);
   int survivedThirdClass = countSurvivedThirdClass(root);
   double survivedFirstClassRate =
-      (double)survivedFirstClass / (double)survived * 100;
+      (double)survivedFirstClass / (double)firstClass * 100;
   double survivedSecondClassRate =
-      (double)survivedSecondClass / (double)survived * 100;
+      (double)survivedSecondClass / (double)secondClass * 100;
   double survivedThirdClassRate =
-      (double)survivedThirdClass / (double)survived * 100;
+      (double)survivedThirdClass / (double)thirdClass * 100;
+
+  // 注：1stなら1st、2ndなら2nd、3rdなら3rdの生き残った割合を示す
   printf("1st 生還割合：%f％, 2nd 生還割合：%f％, 3rd 生還割合：%f％\n",
          survivedFirstClassRate, survivedSecondClassRate,
          survivedThirdClassRate);
@@ -102,6 +113,42 @@ void freePassenger(Passenger *root) {
     free(p);
     p = tmp;
   }
+}
+
+int countFirstClass(Passenger *root) {
+  Passenger *p = root;
+  int count = 0;
+  while (p != NULL) {
+    if (strcmp(p->class, "1st") == 0) {
+      count++;
+    }
+    p = p->next;
+  }
+  return count;
+}
+
+int countSecondClass(Passenger *root) {
+  Passenger *p = root;
+  int count = 0;
+  while (p != NULL) {
+    if (strcmp(p->class, "2nd") == 0) {
+      count++;
+    }
+    p = p->next;
+  }
+  return count;
+}
+
+int countThirdClass(Passenger *root) {
+  Passenger *p = root;
+  int count = 0;
+  while (p != NULL) {
+    if (strcmp(p->class, "3rd") == 0) {
+      count++;
+    }
+    p = p->next;
+  }
+  return count;
 }
 
 int countSurvived(Passenger *root) {

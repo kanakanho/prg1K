@@ -20,6 +20,11 @@ void dispPassenger(Passenger *root);
 // メモリを解放する関数
 void freePassenger(Passenger *root);
 
+// 年代で数える関数
+int countYoung(Passenger *root);
+int countMiddle(Passenger *root);
+int countOld(Passenger *root);
+
 // 生存者数を数える関数
 int countSurvived(Passenger *root);
 
@@ -50,14 +55,19 @@ int main(void) {
     root = addPassenger(&root, class, age, sex, survived);
   }
 
+  // 年代別で調べる
+  int numYoung = countYoung(root);
+  int numMiddle = countMiddle(root);
+  int numOld = countOld(root);
+
   // 生存者、死亡者を数える
-  int survived = countSurvived(root);
   int survivedYoung = countSurvivedYoung(root);
   int survivedMiddle = countSurvivedMiddle(root);
   int survivedOld = countSurvivedOld(root);
-  double rateYoung = (double)survivedYoung / (double)survived;
-  double rateMiddle = (double)survivedMiddle / (double)survived;
-  double rateOld = (double)survivedOld / (double)survived;
+  double rateYoung = (double)survivedYoung / (double)numYoung;
+  double rateMiddle = (double)survivedMiddle / (double)numMiddle;
+  double rateOld = (double)survivedOld / (double)numOld;
+  // 注：子供なら子供、大人なら大人、老人なら老人の生き残った割合を示す
   printf("子供生還割合：%f％, 大人生還割合：%f％, 老人生還割合：%f％\n",
          rateYoung * 100, rateMiddle * 100, rateOld * 100);
 
@@ -100,6 +110,42 @@ void freePassenger(Passenger *root) {
   }
 }
 
+int countYoung(Passenger *root) {
+  Passenger *p = root;
+  int count = 0;
+  while (p != NULL) {
+    if (p->age < 15) {
+      count++;
+    }
+    p = p->next;
+  }
+  return count;
+}
+
+int countMiddle(Passenger *root) {
+  Passenger *p = root;
+  int count = 0;
+  while (p != NULL) {
+    if (p->age >= 15 && p->age < 65) {
+      count++;
+    }
+    p = p->next;
+  }
+  return count;
+}
+
+int countOld(Passenger *root) {
+  Passenger *p = root;
+  int count = 0;
+  while (p != NULL) {
+    if (p->age >= 65) {
+      count++;
+    }
+    p = p->next;
+  }
+  return count;
+}
+
 int countSurvived(Passenger *root) {
   Passenger *p = root;
   int count = 0;
@@ -116,7 +162,7 @@ int countSurvivedYoung(Passenger *root) {
   Passenger *p = root;
   int count = 0;
   while (p != NULL) {
-    if (p->survived == 1 && p->age < 20) {
+    if (p->survived == 1 && p->age < 15) {
       count++;
     }
     p = p->next;
@@ -128,7 +174,7 @@ int countSurvivedMiddle(Passenger *root) {
   Passenger *p = root;
   int count = 0;
   while (p != NULL) {
-    if (p->survived == 1 && p->age >= 20 && p->age < 60) {
+    if (p->survived == 1 && p->age >= 15 && p->age < 65) {
       count++;
     }
     p = p->next;
@@ -140,7 +186,7 @@ int countSurvivedOld(Passenger *root) {
   Passenger *p = root;
   int count = 0;
   while (p != NULL) {
-    if (p->survived == 1 && p->age >= 60) {
+    if (p->survived == 1 && p->age >= 65) {
       count++;
     }
     p = p->next;

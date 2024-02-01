@@ -20,11 +20,21 @@ void dispPassenger(Passenger *root);
 // メモリを解放する関数
 void freePassenger(Passenger *root);
 
+// 性別で数える関数
+int countFemale(Passenger *root);
+int countMale(Passenger *root);
+
 // 生存者数を数える関数
 int countSurvived(Passenger *root);
 
 int countSurvivedMale(Passenger *root);
 int countSurvivedFemale(Passenger *root);
+
+// 死亡者数を数える関数
+int countDied(Passenger *root);
+
+int countDiedMale(Passenger *root);
+int countDiedFemale(Passenger *root);
 
 int main(void) {
   Passenger *root = NULL;
@@ -53,12 +63,18 @@ int main(void) {
     count++;
   }
 
+  // 男性、女性を数える
+  int numMale = countMale(root);
+  int numFemale = countFemale(root);
+
   // 生存者、死亡者を数える
   int survived = countSurvived(root);
   int survivedMale = countSurvivedMale(root);
   int survivedFemale = countSurvivedFemale(root);
-  double survivedMaleRate = (double)survivedMale / (double)survived * 100;
-  double survivedFemaleRate = (double)survivedFemale / (double)survived * 100;
+  double survivedMaleRate = (double)survivedMale / (double)numMale * 100;
+  double survivedFemaleRate = (double)survivedFemale / (double)numFemale * 100;
+
+  // 注：男性なら男性、女性なら女性の生き残った割合を示す
   printf("男性生還割合：%f％, 女性生還割合：%f％\n", survivedMaleRate,
          survivedFemaleRate);
 
@@ -101,6 +117,30 @@ void freePassenger(Passenger *root) {
   }
 }
 
+int countFemale(Passenger *root) {
+  Passenger *p = root;
+  int count = 0;
+  while (p != NULL) {
+    if (strcmp(p->sex, "female") == 0) {
+      count++;
+    }
+    p = p->next;
+  }
+  return count;
+}
+
+int countMale(Passenger *root) {
+  Passenger *p = root;
+  int count = 0;
+  while (p != NULL) {
+    if (strcmp(p->sex, "male") == 0) {
+      count++;
+    }
+    p = p->next;
+  }
+  return count;
+}
+
 int countSurvived(Passenger *root) {
   Passenger *p = root;
   int count = 0;
@@ -130,6 +170,42 @@ int countSurvivedFemale(Passenger *root) {
   int count = 0;
   while (p != NULL) {
     if (p->survived == 1 && strcmp(p->sex, "female") == 0) {
+      count++;
+    }
+    p = p->next;
+  }
+  return count;
+}
+
+int countDied(Passenger *root) {
+  Passenger *p = root;
+  int count = 0;
+  while (p != NULL) {
+    if (p->survived == 0) {
+      count++;
+    }
+    p = p->next;
+  }
+  return count;
+}
+
+int countDiedMale(Passenger *root) {
+  Passenger *p = root;
+  int count = 0;
+  while (p != NULL) {
+    if (p->survived == 0 && strcmp(p->sex, "male") == 0) {
+      count++;
+    }
+    p = p->next;
+  }
+  return count;
+}
+
+int countDiedFemale(Passenger *root) {
+  Passenger *p = root;
+  int count = 0;
+  while (p != NULL) {
+    if (p->survived == 0 && strcmp(p->sex, "female") == 0) {
       count++;
     }
     p = p->next;
